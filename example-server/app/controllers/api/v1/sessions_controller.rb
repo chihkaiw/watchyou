@@ -28,5 +28,5 @@ class Api::V1::SessionsController < ApplicationController
                       :info => "Login Failed",
                       :data => {} }
   end
-
+  
 end

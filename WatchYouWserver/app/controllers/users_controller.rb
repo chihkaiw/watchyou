@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def create
 	@user = User.new(post_params)
 	if @user.save
-		redirect_to users_path, notice => "saved"
+		redirect_to users_index_path, notice => "saved"
 	else
 		render "new"
 	end
@@ -27,10 +27,11 @@ class UsersController < ApplicationController
   end
 
   def delete
-		if User.destroy(params[:id])
-			redirect_to users_path, :notice => "saved"
+		@schedule = Schedule.where(:userID => params[:id])
+		if @schedule.destroy_all && User.destroy(params[:id])
+			redirect_to users_index_path, :notice => "saved"
 		else
-			render "Show"
+			render "show"
 		end
   end
   
@@ -44,7 +45,7 @@ class UsersController < ApplicationController
   end
   private
     def post_params
-        params.require(:user).permit(:name, :email, :password, :scheduleID)
+        params.require(:user).permit(:name, :email, :password)
     end
 
 end

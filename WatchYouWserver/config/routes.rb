@@ -4,6 +4,15 @@ Rails.application.routes.draw do
   #get 'schedules/update'
 
   #get 'schedules/delete'
+  resource 'users'
+  
+  resource 'schedules'
+  
+  get 'schedules/index'
+  
+  get 'schedules/delete'
+  
+  get 'schedules/json'
   
   get 'users/index'
 
@@ -15,11 +24,11 @@ Rails.application.routes.draw do
   
   get 'users/delete'
   
-  get '/users', to: 'users#index'
+  get '/users' , to: 'users#index'
   
-  get '/users/:id', to: 'users#show'
+  get '/users/:id', to: 'users#show' 
   
-  resource 'users'
+
   #resource 'schedules'
 
   # The priority is based upon order of creation: first created -> highest priority.

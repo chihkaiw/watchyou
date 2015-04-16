@@ -13,11 +13,7 @@
 		<%=f.text_field :password %><br />
 	</p>
 	<p>
-		<%=f.label :scheduleID %><br />
-		<%=f.text_field :scheduleID %><br />
-	</p>
-	<p>
 		<%= f.submit "Add User" %>
 	</p>
 <% end %>
-<%= link_to "Go Back", users_path %>
+<%= link_to "Go Back", users_index_path %>

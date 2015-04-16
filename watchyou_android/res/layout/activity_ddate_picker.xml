@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:colorBackgroundCacheHint="@null"
+    android:windowNoTitle="true"
+    android:windowContentOverlay="@null"
+    tools:context="com.example.a55123.Rank">
+
+    <Button
+        android:id="@+id/addnew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="+" />
+
+    <RelativeLayout
+        android:id="@+id/calrelative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/launch_codes"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/addnew"
+        android:layout_below="@+id/addnew"
+        android:orientation="vertical" >
+
+        <CalendarView
+            android:id="@+id/calendarView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/launch_codes"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/Doneforschedule"
+        android:layout_below="@+id/Doneforschedule"/>
+
+    <Button
+        android:id="@+id/Doneforschedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/launch_codes"
+        android:layout_alignTop="@+id/launch_codes"
+        android:layout_toRightOf="@+id/launch_codes"
+        android:text="Done" />
+
+    <EditText
+        android:id="@+id/launch_codes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/calrelative"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="300dp"
+        android:layout_marginRight="30dp"
+        android:ems="10"
+        android:hint="@string/enter_launch_codes"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/date_backbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/calrelative"
+        android:layout_alignTop="@+id/addnew"
+        android:text="BACK" />
+
+</RelativeLayout>

@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.a55123.Me_supervise_personal" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+
+        <Button
+            android:id="@+id/me_back_supervise_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BACK" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginBottom="150dp">
+
+        <ImageView
+            android:id="@+id/me_back_supervise_personal_Big_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/HorizontalScrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/LinearLayout1"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="29dp" >
+
+        <LinearLayout
+            android:id="@+id/me_supervise_personal_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <RelativeLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/HorizontalScrollView2"
+        android:layout_alignLeft="@+id/relativeLayout2" >
+
+        <Button
+            android:id="@+id/me_supervise_personal_Good"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="80dip"
+            android:text="Good" />
+
+        <Button
+            android:id="@+id/me_supervise_personal_Failed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:minHeight="80dp"
+            android:text="Failed" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

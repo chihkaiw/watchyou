@@ -1,0 +1,113 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="4"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.a55123.Me" >
+
+    <RelativeLayout
+        android:id="@+id/me_relative2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true" >
+
+        <LinearLayout
+            android:id="@+id/me_relative2lin1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical" >
+            
+            <TextView
+	            android:id="@+id/me_textView1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Large Text1"
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/me_textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Large Text2"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+            
+            <TextView
+	            android:id="@+id/me_textView3"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Large Text3"
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/me_relative2lin2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/me_schedule_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SCHEDULE" />
+
+        	<Button
+	            android:id="@+id/me_supervise_button"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="SUPERVISE" />
+        	
+            <Button
+	            android:id="@+id/me_record_button"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="RECORD" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/me_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="BACK" />
+
+    <RelativeLayout
+        android:id="@+id/me_relative1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/me_back"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/me_back" >
+
+        <ImageButton
+            android:id="@+id/me_imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_star" />
+
+        <TextView
+            android:id="@+id/me_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/me_imageButton"
+            android:ems="10" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<h1><%= @schedule.title %></h1>
+<p>date: <%= @schedule.date %></p>
+<p>category: <%= @schedule.category %></p>
+<p>star: <%= @schedule.star %></p>
+<p>category: <%= @schedule.note %></p>
+
+
+
+<h3><%= link_to "Delete", controller: "schedules", action: "delete", id: @schedule.id %></h3>
+<%= link_to "Go Back", controller: "schedules", action: "index" , userID: @schedule.userID%>

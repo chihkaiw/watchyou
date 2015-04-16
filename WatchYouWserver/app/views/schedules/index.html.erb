@@ -1,0 +1,8 @@
+<h1>Schedules</h1>
+<% @schedule.each do |s| %>
+	<h3><%= link_to s.title, controller: "schedules", action: "show", id: s.id %></h3>
+	<hr>
+<% end %>
+<h3><%= link_to "New", new_schedules_path(:userID => @userID) %></h3>
+<%= link_to "Go Back", controller: "users", action: "show", id: @userID %>
+<h3><%= link_to "JSON", controller: "schedules", action: "json", userID: @userID %></h3>

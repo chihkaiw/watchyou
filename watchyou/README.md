@@ -1,3 +1,0 @@
-# watchyou
-android watchyou schedule 
-

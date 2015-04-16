@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:padding="30dip" >
+
+    <Button
+        android:id="@+id/me_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rank_button"
+        android:layout_alignRight="@+id/rank_button"
+        android:layout_centerVertical="true"
+        android:text="@string/me_lable" />
+	<ImageView
+	    android:id="@+id/imageView1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+	    android:layout_below="@+id/camera_button"/>
+
+	<Button
+	    android:id="@+id/rank_button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/camera_button"
+	    android:layout_below="@+id/me_button"
+	    android:text="Rank" />
+
+	<Button
+	    android:id="@+id/camera_button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/rank_button"
+	    android:layout_centerHorizontal="true"
+	    android:onClick="onClick_Camera"
+	    android:text="開啟相機" />
+
+	<TextView
+	    android:id="@+id/textView1"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:layout_centerHorizontal="true"
+	    android:text="@string/main_title"
+	    android:textSize="60sp" />
+
+</RelativeLayout>

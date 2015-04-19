@@ -2,9 +2,7 @@
 <resources>
 
     <string name="app_name">55123</string>
-    <string name="main_title">Main Sudoku</string>
-    <string name="continue_label">Continue</string>
-    <string name="new_game_label">New Game</string>
+    <string name="main_title">Watch You</string>
     <string name="me_lable">Me</string>
     <string name="exit_label">Exit</string>
     <string name="about_title">About Android Sudoku</string>
@@ -46,17 +44,17 @@
 
 
 
-　　                                        <item>From Album</item>
+	　　                                 <item>From Album</item>
 
 
 
 
-　　                                        <item>Take a Picture</item>
+	　　                                 <item>Take a Picture</item>
 
 
 
 
-　　                                        <item>Cancel</item>
+	　　                                 <item>Cancel</item>
 
 
 
@@ -67,5 +65,12 @@
     <string name="title_activity_me_supervise_personal">Me_supervise_personal</string>
     <string name="title_activity_hsv">HSV</string>
     <string name="title_activity_photo_page">Photo_page</string>
+    <string name="title_activity_photo__test">Photo_TEST</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="title_activity_submit_task">Submit_task</string>
+    <string name="title_activity_create__account">Create_Account</string>
+    <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_rank_content">Rank_content</string>
+    <string name="title_activity_record">Record</string>
 
 </resources>

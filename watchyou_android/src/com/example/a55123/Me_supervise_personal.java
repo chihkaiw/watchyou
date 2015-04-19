@@ -110,10 +110,9 @@ public class Me_supervise_personal extends Activity{
 				dialog_Failed.show();
 			}
 		});
-		
+		myGallery = (LinearLayout) findViewById(R.id.me_supervise_personal_gallery);
 		setImages();
 		setScreens();
-		findViews();
 		initdata();
 		
 		setImageListener();
@@ -174,9 +173,8 @@ public class Me_supervise_personal extends Activity{
 	}
 	
 	
-		 
-		// 用反射機制來獲取資源中的圖片ID
-	private void setImages() {
+	// get image index	 
+	private void setImages() {  
 		fields = R.drawable.class.getDeclaredFields();
 		for (Field field : fields) {
 			if (!"icon".equals(field.getName())) {
@@ -192,17 +190,17 @@ public class Me_supervise_personal extends Activity{
 			}
 		}
 	}
-		 
-		/* 手機屏幕屬性 */
+	// init screen	 
 	private void setScreens() {
 		DisplayMetrics metric = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metric);
-		width = metric.widthPixels/5; // 屏幕寬度（像素）
-		height = metric.heightPixels/10; // 屏幕高度（像素）
-		density = metric.density; // 屏幕密度（0.75 / 1.0 / 1.5）
-		densityDpi = metric.densityDpi; // 屏幕密度DPI（120 / 160 / 240）
+		width = metric.widthPixels/5; 
+		height = metric.heightPixels/10; 
+		density = metric.density; 
+		densityDpi = metric.densityDpi; 
 	}
 	 
+	//set a layout view for image
 	private View insertImage(Integer id, int i) {
 		LinearLayout layout = new LinearLayout(getApplicationContext());
 		layout.setLayoutParams(new LayoutParams(width, height));
@@ -216,10 +214,7 @@ public class Me_supervise_personal extends Activity{
 		layout.addView(imageview);
 		return layout;
 	}
-	
-	private void findViews() {
-		myGallery = (LinearLayout) findViewById(R.id.me_supervise_personal_gallery);
-	}
+
 		 
 	private void initdata() {
 		int i=0;

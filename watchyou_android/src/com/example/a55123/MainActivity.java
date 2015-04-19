@@ -15,14 +15,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
-public class MainActivity extends ActionBarActivity implements OnClickListener {
-	private static final String _TAG = "Sudoku";
+public class MainActivity extends Activity implements OnClickListener {
 	
-	private Button camerabutton, rankbutton, mebutton;
-	private ImageView imageView;
-	private static final int CAMERA_REQUEST = 1888;
+	private Button camerabutton, rankbutton, mebutton,signupbutton;
+	private ImageView init_view;
     SQLiteDatabase db;
 	public String db_name = "MainPageSQL";
 	public String table_name = "newtable";
@@ -33,30 +32,21 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
+		init_view = (ImageView)findViewById(R.id.main_init_imagebutton);
+		init_view.setImageResource(R.drawable.main_page);
+		init_view.setOnClickListener(this);
 		mebutton = (Button)findViewById(R.id.me_button);
 		mebutton.setOnClickListener(this);
 		rankbutton = (Button)findViewById(R.id.rank_button);
 		rankbutton.setOnClickListener(this);
 		camerabutton = (Button)findViewById(R.id.camera_button);
+		camerabutton.setOnClickListener(this);
+		signupbutton = (Button)findViewById(R.id.signin_button_main_test);
+		signupbutton.setOnClickListener(this);
 		
-		imageView = (ImageView) this.findViewById(R.id.imageView1);
-		imageView.setImageResource(R.drawable.ad);
 		
 		db = helper.getReadableDatabase();
-
-		
-		/*aboutButton.setOnClickListener(new View.OnClickListener() {
-        	@Override
-            public void onClick(View v) { 
- 
-        		Intent i = new Intent();
-        		i.setClass(MainActivity.this,DDatePickerActivity.class);
-    			startActivity(i);
-
-        	 }
-        		 
-		 });*/
 		
 	}
 
@@ -81,24 +71,20 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 				Intent i_rank = new Intent(this, Rank.class);
 				startActivity(i_rank);
 				break;
+				
+			case R.id.camera_button:
+				Intent i_submit = new Intent(this, Submit_task.class);
+				startActivity(i_submit);
+				break;
+				
+			case R.id.signin_button_main_test:
+				Intent i_test = new Intent(this, SignUp.class);
+				startActivity(i_test);
+				break;
+				
+			case R.id.main_init_imagebutton:
+				init_view.setVisibility(View.GONE);
 			}
 	}
-	
-	public void onClick_Camera(View view) {
-		Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-	    startActivityForResult(cameraIntent, CAMERA_REQUEST);
-	}
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == CAMERA_REQUEST) {
-	        if (resultCode == Activity.RESULT_OK) {
-	            Bitmap photo = (Bitmap) data.getExtras().get("data");
-	 
-	            //ImageView imageView = (ImageView) this.findViewById(R.id.imageView1);
-	            imageView.setImageBitmap(photo);
-	        }
-	    }
-	}
-	
-	
 	
 }

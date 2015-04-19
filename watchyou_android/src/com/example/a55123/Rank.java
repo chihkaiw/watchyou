@@ -22,12 +22,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Rank extends Activity {
+public class Rank extends Activity implements OnClickListener{
 	
 	private Button rank_back_button;
 	private ListView rank_listivew;
@@ -41,13 +42,7 @@ public class Rank extends Activity {
 		StrictMode.setThreadPolicy(policy);
 		
 		rank_back_button = (Button)findViewById(R.id.rank_back_button);
-		rank_back_button.setOnClickListener(new View.OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				Rank.this.finish();
-			}
-			
-		});
+		rank_back_button.setOnClickListener(this);
 		
 		rank_listivew = (ListView)findViewById(R.id.ranklistview);
 		chkNetwork();
@@ -61,6 +56,16 @@ public class Rank extends Activity {
 				android.R.layout.simple_expandable_list_item_1,
 				str);
 		rank_listivew.setAdapter(listAdapter);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()){
+			case R.id.rank_back_button:
+				Rank.this.finish();
+				break;
+		}
+		
 	}
 
 	@Override
@@ -82,6 +87,7 @@ public class Rank extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	// Get JSON Raw data
 	private String[] getJSONData() throws IOException{
 		try{
 		String szUrl = "http://watchyou.herokuapp.com/users/json";
@@ -114,24 +120,26 @@ public class Rank extends Activity {
 	    }
 	    return null;
 	}
-	 public String[]  getJson(String jsonString) throws JSONException {
+	
+	// Transfer Raw JSON data to  readable data
+	public String[]  getJson(String jsonString) throws JSONException {
  		JSONArray jsonObject = new JSONArray(jsonString);
  		  
         String[] name = new String[jsonObject.length()];
  		String[] email = new String[jsonObject.length()];
  		String[] password = new String[jsonObject.length()];
- 		String[] schedule = new String[jsonObject.length()];
+ 		int[] ID = new int[jsonObject.length()];
  		
  		for(int i = 0 ; i<jsonObject.length(); i++){
  			JSONObject lib = jsonObject.getJSONObject(i);
  			name[i] = lib.getString("name");
  			email[i] = lib.getString("email");
  			password[i] = lib.getString("password");
- 			schedule[i] = lib.getString("scheduleID");
+ 			ID[i] = lib.getInt("id");
  			Log.e("name", lib.getString("name"));
  			Log.e("email", lib.getString("email"));
  			Log.e("password", lib.getString("password"));
- 			Log.e("scheduleID", lib.getString("scheduleID"));
+ 			Log.e("ID", ""+lib.getInt("id"));
  		}
  		return name; 
      }
@@ -140,11 +148,13 @@ public class Rank extends Activity {
         ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            Toast.makeText(Rank.this, "網路連線中 ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Rank.this, "DataBase Connecting ", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(Rank.this, "網路斷線 ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Rank.this, "DataBase Connected Failed ", Toast.LENGTH_SHORT).show();
         }
     }
+
+	
 	
 	//呼叫AsyncTask
 	/*private class DownloadWebpageTask extends AsyncTask<Void,Integer,String[]>

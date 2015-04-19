@@ -8,10 +8,12 @@ import com.example.a55123.support.NewListDataSQL;
 import com.example.a55123.*;
 
 import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,7 +34,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-public class ScheduleContent extends ActionBarActivity {
+public class ScheduleContent extends Activity implements OnClickListener{
 	
 	private EditText edittime;
 	private EditText edittitle;
@@ -75,12 +78,7 @@ public class ScheduleContent extends ActionBarActivity {
 		
 		//--------------set remind time----------------------------------------------------------
 		edittime = (EditText)findViewById(R.id.scedittime1);
-		edittime.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showTimePickerDialog(); 
-			}
-		});
+		edittime.setOnClickListener(this);
 		//----------------------------------------------------------------------------------------
 		
 		//-----set note----------------------------------------------------------------------------------------------
@@ -91,27 +89,14 @@ public class ScheduleContent extends ActionBarActivity {
 		datetext1 = (TextView)findViewById(R.id.scedit2);
 		datetext1.setText(new StringBuilder().append(pYear).append(" / ").
       	      append(pMonth).append(" / ").append(pDay));
-		datetext1.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				showDatePickerDialog();
-			}
-		});
+		datetext1.setOnClickListener(this);
 		//--------------------------------------------------------------------------------------------------------------
 		
 		//-----set remind date------------------------------------------------------------------------------------------
 		datetext2 = (TextView)findViewById(R.id.scedit3);
 		datetext2.setText(new StringBuilder().append(pYear).append(" / ").
       	      append(pMonth).append(" / ").append(pDay));
-		datetext2.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showDatePickerDialogremind();
-			}
-		});
+		datetext2.setOnClickListener(this);
 		//-------------------------------------------------------------------------------------------------------------
 		
 		//--------Spinner ---------------------------------------------------------------------//
@@ -121,9 +106,9 @@ public class ScheduleContent extends ActionBarActivity {
 
             @Override
             public void onItemSelected(AdapterView parent, View v, int position, long id) {
-                    // parent = 事件發生的母體 spinner_items
-                    // position = 被選擇的項目index = parent.getSelectedItemPosition()
-                    // id = row id，通常給資料庫使用
+                    // parent = parent view
+                    // position = Selected index = parent.getSelectedItemPosition()
+                    // id = row id
             	stype = mSpinnerA.getSelectedItemPosition();
             }
             @Override
@@ -155,60 +140,7 @@ public class ScheduleContent extends ActionBarActivity {
 		//check if there is review one
 		
 		pOk = (Button)findViewById(R.id.scbutton);	
-		pOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            	
-	            	String stitle = edittitle.getText().toString();
-	            	String sreminddate = datetext2.getText().toString();
-	            	String sremindtime = edittime.getText().toString();
-	            	String snote = editnote.getText().toString();
-	            	/*int stype = (int) mSpinnerA.getSelectedItemPosition();
-	            	int sstar = (int) mSpinnerB.getSelectedItemPosition();
-	            	int sring = (int) mSpinnerC.getSelectedItemPosition();*/
-	            	
-	            	//寫進SQLite
-	        	   ContentValues cv = new ContentValues();
-	        	   cv.put("title", stitle);
-	        	   cv.put("year", pYear);
-	        	   cv.put("month", pMonth);
-	        	   cv.put("day", pDay);
-	        	   cv.put("reminddate", sreminddate);
-	        	   cv.put("remindtime", sremindtime);
-	        	   cv.put("note",snote);
-	        	   cv.put("type",stype);
-	        	   cv.put("star",sstar);
-	        	   cv.put("ring",sring);
-	        	   
-        	   if(checksum == 0){
-	        	   long long1 = db.insert(table_name, "", cv);
-	        	   
-	        	   if (long1 == -1) {
-	        		   Toast.makeText(ScheduleContent.this,"fail！", Toast.LENGTH_SHORT).show();
-	        		   ScheduleContent.this.finish(); 
-	        	   }
-	        	   else{    
-	        		   Toast.makeText(ScheduleContent.this,"Success!", Toast.LENGTH_SHORT).show();
-	        		   ScheduleContent.this.finish(); 
-	        	   }
-            	}
-            	else{
-            		
-            		long long1 = db.update(table_name, cv, "_ID=" + _ID, null);
-            		/*long long1 = db.update(table_name, cv, "title=" + stitle + " AND year=" + pYear
-            				+ " AND month=" + pMonth + " AND day=" + pDay, null);*/
-            		
-        		   if (long1 == -1) {
-	        		   Toast.makeText(ScheduleContent.this,"Change Fail！", Toast.LENGTH_SHORT).show();
-	        		   ScheduleContent.this.finish(); 
-	        	   }
-	        	   else{    
-	        		   Toast.makeText(ScheduleContent.this,"Change Success!", Toast.LENGTH_SHORT).show();
-	        		   ScheduleContent.this.finish(); 
-	        	   }
-            	}
-            }
-        });
+		pOk.setOnClickListener(this);
 		
 		
 		
@@ -229,27 +161,104 @@ public class ScheduleContent extends ActionBarActivity {
 			mSpinnerC.setSelection( Integer.parseInt(str[6]));
 			_ID=str[7];
 			pdelete = (Button)findViewById(R.id.delete_button);
-			pdelete.setOnClickListener(new View.OnClickListener(){
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					long long1 = db.delete(table_name, "_ID=" + _ID, null);
-					if (long1 == -1) {
-		        		   Toast.makeText(ScheduleContent.this,"Delete Fail！", Toast.LENGTH_SHORT).show();
-		        		   ScheduleContent.this.finish(); 
-		        	   }
-		        	   else{    
-		        		   Toast.makeText(ScheduleContent.this,"Delete Success!", Toast.LENGTH_SHORT).show();
-		        		   ScheduleContent.this.finish(); 
-		        	   }
-				}
-				
-			});
-			Toast.makeText(ScheduleContent.this,"here read success!!!", Toast.LENGTH_SHORT).show();
+			pdelete.setOnClickListener(this);
+			pdelete.setVisibility(View.VISIBLE);
+			Toast.makeText(ScheduleContent.this,"Review Mode", Toast.LENGTH_SHORT).show();
 		}
 		
 		
 	}
+	
+	@Override
+	public void onClick(View v) {
+		Intent intent = new Intent(ScheduleContent.this,DDatePickerActivity.class);
+		switch(v.getId()){
+			case R.id.scedittime1:
+				showTimePickerDialog(); 
+				break;
+				
+			case R.id.scedit2:
+				showDatePickerDialog();
+				break;
+				
+			case R.id.scedit3:
+				showDatePickerDialogremind();
+				break;
+				
+			case R.id.scbutton:
+			 	String stitle = edittitle.getText().toString();
+            	String sreminddate = datetext2.getText().toString();
+            	String sremindtime = edittime.getText().toString();
+            	String snote = editnote.getText().toString();
+            	/*int stype = (int) mSpinnerA.getSelectedItemPosition();
+            	int sstar = (int) mSpinnerB.getSelectedItemPosition();
+            	int sring = (int) mSpinnerC.getSelectedItemPosition();*/
+            	
+            	//寫進SQLite
+        	   ContentValues cv = new ContentValues();
+        	   cv.put("title", stitle);
+        	   cv.put("year", pYear);
+        	   cv.put("month", pMonth);
+        	   cv.put("day", pDay);
+        	   cv.put("reminddate", sreminddate);
+        	   cv.put("remindtime", sremindtime);
+        	   cv.put("note",snote);
+        	   cv.put("type",stype);
+        	   cv.put("star",sstar);
+        	   cv.put("ring",sring);
+        	  
+        	   
+        	   
+	    	   if(checksum == 0){
+	    		   cv.put("submit", false);
+	        	   long long1 = db.insert(table_name, "", cv);
+	        	   
+	        	   if (long1 == -1) {
+	        		   Toast.makeText(ScheduleContent.this,"fail！", Toast.LENGTH_SHORT).show();
+	        		   //ScheduleContent.this.finish(); 
+	        	   }
+	        	   else{    
+	        		   Toast.makeText(ScheduleContent.this,"Success!", Toast.LENGTH_SHORT).show();
+	        		   //ScheduleContent.this.finish(); 
+	        	   }
+	        	   
+	        	   
+	        	}
+	        	else{
+	        		
+	        		long long1 = db.update(table_name, cv, "_ID=" + _ID, null);
+	        		
+	    		   if (long1 == -1) {
+	        		   Toast.makeText(ScheduleContent.this,"Change Fail！", Toast.LENGTH_SHORT).show();
+	        		   //ScheduleContent.this.finish(); 
+	        	   }
+	        	   else{    
+	        		   Toast.makeText(ScheduleContent.this,"Change Success!", Toast.LENGTH_SHORT).show();
+	        		   //ScheduleContent.this.finish(); 
+	        	   }
+	        	}
+	    	    
+        	    setResult(Activity.RESULT_OK,intent);
+        	    finish();
+	    	   	break;
+    	   
+			case R.id.delete_button:
+				long long1 = db.delete(table_name, "_ID=" + _ID, null);
+				if (long1 == -1) {
+	        		   Toast.makeText(ScheduleContent.this,"Delete Fail！", Toast.LENGTH_SHORT).show();
+	        		   //ScheduleContent.this.finish(); 
+				}
+				else{    
+	        		   Toast.makeText(ScheduleContent.this,"Delete Success!", Toast.LENGTH_SHORT).show();
+	        		   //ScheduleContent.this.finish(); 
+				}
+				 //Intent i_delete = new Intent(ScheduleContent.this,DDatePickerActivity.class);
+				 setResult(Activity.RESULT_OK,intent);
+				 finish();
+				break;
+		}
+		
+	}  
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -405,5 +414,7 @@ public class ScheduleContent extends ActionBarActivity {
 	     }  
 	    }, pHour, pMinute, false);  
 	  tpd.show();  
-	 }  
+	 }
+
+	
 }

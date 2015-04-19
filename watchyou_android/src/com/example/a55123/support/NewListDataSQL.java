@@ -40,7 +40,9 @@ public class NewListDataSQL extends SQLiteOpenHelper {
              + "note VARCHAR,"
              + "type INT,"
              + "star INT,"
-             + "ring INT"
+             + "ring INT,"
+             + "submit BOOLEAN,"
+             + "accept BOOLEAN"
          + ")";
             db.execSQL(DATABASE_CREATE_TABLE);
   }

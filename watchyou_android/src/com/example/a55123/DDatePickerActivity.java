@@ -1,17 +1,24 @@
 package com.example.a55123;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.example.a55123.support.NewListDataSQL;
 
 import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -24,7 +31,7 @@ import android.widget.Toast;
 import android.widget.CalendarView;
 
 
-public class DDatePickerActivity extends ActionBarActivity {
+public class DDatePickerActivity extends Activity implements OnClickListener{
 
     /** Private members of the class */
     private CalendarView pC;
@@ -36,21 +43,22 @@ public class DDatePickerActivity extends ActionBarActivity {
     private ListView listview;
     private String[] str_title;
     private String[] str_time;
+    private String[] str_check;
     private String s1="";
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
 	public String db_name = "MainPageSQL";
 	public String table_name = "newtable";
 	private Bundle bundle = new Bundle();
 	private ArrayList<Integer> box;
 	private int checksum = 0; // 0=new one, 1=reverse
 	
+	private static final int addnewone = 123;
+	private static final int clicktoreverse = 456;
+	
 	NewListDataSQL helper = new NewListDataSQL(DDatePickerActivity.this, db_name);
     //private TextView text;
 
     /** This integer will uniquely define the dialog to be used for displaying date picker.*/
-
-    static final int DONE_DIALOG_ID = 2;
-    static final int ADD_DIALOG_ID = 3;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,8 +69,11 @@ public class DDatePickerActivity extends ActionBarActivity {
         
         text = (TextView)findViewById(R.id.launch_codes);
         pDone = (Button) findViewById(R.id.Doneforschedule);
+        pDone.setOnClickListener(this);
         pAdd = (Button) findViewById(R.id.addnew);
+        pAdd.setOnClickListener(this);
         pback = (Button)findViewById(R.id.date_backbutton);
+        pback.setOnClickListener(this);
         
         pC = (CalendarView) findViewById(R.id.calendarView1);
         final Calendar cal = Calendar.getInstance();
@@ -90,47 +101,6 @@ public class DDatePickerActivity extends ActionBarActivity {
             }
         });
 
-        pDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            	//DDatePickerActivity.this.finish();
-            	setlistview();
-            }
-        });
-        
-        pback.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				DDatePickerActivity.this.finish();
-			}
-		});
-
-        pAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            	
-            	box = new ArrayList<Integer>();
-            	box.add(pYear);
-            	box.add(pMonth);
-            	box.add(pDay);
-            	bundle.putIntegerArrayList("dateinfo", box);
-            	
-            	checksum=0;
-            	bundle.putInt("CheckSum", checksum);
-            	
-            	ArrayList<String> quary_string = new ArrayList<String>();
-            	quary_string.add(buildSQLstring("title", pYear, pMonth, pDay));
-            	quary_string.add(buildSQLstring("remindtime", pYear, pMonth, pDay));
-            	bundle.putStringArrayList("Quaryinfo", quary_string);
-            	
-                Intent i = new Intent();
-                i.setClass(DDatePickerActivity.this, ScheduleContent.class);
-                i.putExtras(bundle); 
-                startActivity(i);
-            }
-        });
-        
         listview.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -150,18 +120,76 @@ public class DDatePickerActivity extends ActionBarActivity {
             	
             	bundle.putStringArray("Item_Detail", item_detail);
             	
-            	 Intent i = new Intent();
+            	 /*Intent i = new Intent();
                  i.setClass(DDatePickerActivity.this, ScheduleContent.class);
                  i.putExtras(bundle);
-                 startActivity(i);
+                 startActivity(i);*/
+            	Intent i = new Intent(DDatePickerActivity.this, ScheduleContent.class);
+            	i.putExtras(bundle); 
+            	startActivityForResult(i, clicktoreverse); 
 			}
         	
         });
     }
     
-    public String[] myTitle(String target){
+    @Override
+	public void onClick(View v) {
+    	switch(v.getId()){
+			case R.id.Doneforschedule:
+				setlistview();
+				break;
+				
+			case R.id.date_backbutton:
+				DDatePickerActivity.this.finish();
+				break;
+				
+			case R.id.addnew:
+				box = new ArrayList<Integer>();
+            	box.add(pYear);
+            	box.add(pMonth);
+            	box.add(pDay);
+            	bundle.putIntegerArrayList("dateinfo", box);
+            	
+            	checksum=0;
+            	bundle.putInt("CheckSum", checksum);
+            	
+            	ArrayList<String> quary_string = new ArrayList<String>();
+            	quary_string.add(buildSQLstring("title", pYear, pMonth, pDay));
+            	quary_string.add(buildSQLstring("remindtime", pYear, pMonth, pDay));
+            	bundle.putStringArrayList("Quaryinfo", quary_string);
+            	
+                /*Intent i = new Intent();
+                i.setClass(DDatePickerActivity.this, ScheduleContent.class);
+                i.putExtras(bundle); 
+                startActivity(i);*/
+            	
+            	Intent i = new Intent(DDatePickerActivity.this, ScheduleContent.class);
+            	i.putExtras(bundle); 
+            	startActivityForResult(i, addnewone); 
+                break;
+    	}
+    	
+    	setlistview();
+    	
+	}
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == addnewone) {
+	        if (resultCode == Activity.RESULT_OK) {
+	        	setlistview();
+	        }
+	    }
+	    if (requestCode == clicktoreverse) {
+	        if (resultCode == Activity.RESULT_OK) {
+	        	setlistview();
+	        }
+	    }
+	       super.onActivityResult(requestCode, resultCode, data);
+     }
+    
+    public String[] myData(String target){
     	String quary_title = buildSQLstring(target, pYear, pMonth, pDay);
-    	//"select title from newtable where (year = '2015' AND month = '4' AND day = '9')"
+    	// Sample "select title from newtable where (year = '2015' AND month = '4' AND day = '9')"
 		Cursor cursor = db.rawQuery(quary_title, null);
 		 //用陣列存資料
 		String[] sNote = new String[cursor.getCount()];
@@ -202,7 +230,6 @@ public class DDatePickerActivity extends ActionBarActivity {
 				  }
 				  cursor.moveToNext();//將指標移至下一筆資料
 			 }
-			Log.e("ans~"+i+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", sNote[i]);
 			 cursor.close(); //關閉Cursor
 			 //dbHelper.close();//關閉資料庫，釋放記憶體，還需使用時不要關閉
     	}
@@ -221,26 +248,31 @@ public class DDatePickerActivity extends ActionBarActivity {
     public String reverseItemSQL(String target, String title, int year, int month, int day){
     	String s = "select "+target+" from newtable where (year = '"+year+"' AND month = '"+ month 
     			+"' AND day = '"+ day +"' AND title = '"+ title +"')";
-    	Log.e("The SSSSSSSSSSSSSSSSSSSSSString IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII build",s);
     	
     	return s;
     }
     
     public void setlistview(){
-    	str_title = myTitle("title");
-    	str_time = myTitle("remindtime");
+    	str_title = myData("title");
+    	str_time = myData("remindtime");
+    	str_check = myData("submit");
     	String[] final_string = new String[str_title.length];
     	for(int i=0 ; i<str_title.length ; i++){
-    		if(str_time[i]=="nnn"){
+    		if(str_time[i]=="nnn"){ // if they didn't give time of schedule
     			final_string[i]=str_title[i];
     		}
     		else{
     			final_string[i]=str_time[i]+" "+str_title[i];
+    		}
+    		if(str_check[i].equals("1")){
+    			final_string[i] = " √   " + final_string[i];
     		}
     	}
         ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(DDatePickerActivity.this,
         		android.R.layout.simple_expandable_list_item_1,final_string);
         listview.setAdapter(listAdapter);
     }
+
+	
     
 }

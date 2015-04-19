@@ -5,13 +5,17 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="17"
         android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-feature android:name="android.hardware.camera"
-                  android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -58,6 +62,34 @@
         <activity
             android:name=".Photo_page"
             android:label="@string/title_activity_photo_page" >
+        </activity>
+        <activity
+            android:name=".Photo_TEST"
+            android:label="@string/title_activity_photo__test" >
+        </activity>
+        <activity
+            android:name=".CameraActivity"
+            android:label="@string/title_activity_camera" >
+        </activity>
+        <activity
+            android:name=".Submit_task"
+            android:label="@string/title_activity_submit_task" >
+        </activity>
+        <activity
+            android:name=".Create_Account"
+            android:label="@string/title_activity_create__account" >
+        </activity>
+        <activity
+            android:name=".SignUp"
+            android:label="@string/title_activity_sign_up" >
+        </activity>
+        <activity
+            android:name=".Record_content"
+            android:label="@string/title_activity_rank_content" >
+        </activity>
+        <activity
+            android:name=".Record"
+            android:label="@string/title_activity_record" >
         </activity>
     </application>
 

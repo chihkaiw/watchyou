@@ -169,6 +169,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/MultieditText1"
         android:layout_alignTop="@+id/scbutton"
+        android:visibility="invisible"
         android:text="Delete" />
 
 </RelativeLayout>

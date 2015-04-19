@@ -136,18 +136,18 @@ public class Me_supervise_main extends Activity {
         String[] name = new String[jsonObject.length()];
  		String[] email = new String[jsonObject.length()];
  		String[] password = new String[jsonObject.length()];
- 		String[] schedule = new String[jsonObject.length()];
+ 		int[] ID = new int[jsonObject.length()];
  		
  		for(int i = 0 ; i<jsonObject.length(); i++){
  			JSONObject lib = jsonObject.getJSONObject(i);
  			name[i] = lib.getString("name");
  			email[i] = lib.getString("email");
  			password[i] = lib.getString("password");
- 			schedule[i] = lib.getString("scheduleID");
+ 			ID[i] = lib.getInt("id");
  			Log.e("name", lib.getString("name"));
  			Log.e("email", lib.getString("email"));
  			Log.e("password", lib.getString("password"));
- 			Log.e("scheduleID", lib.getString("scheduleID"));
+ 			Log.e("ID", ""+lib.getInt("id"));
  		}
  		return name; 
      }

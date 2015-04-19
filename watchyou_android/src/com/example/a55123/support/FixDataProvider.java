@@ -8,7 +8,6 @@ public class FixDataProvider {
 	public static List<String> GetTypeList() {
 		
 		List<String> list = new ArrayList<String>();
-		list.add("");
 		list.add("Study Work");
 		list.add("Club");
 		list.add("Others");
@@ -21,19 +20,18 @@ public class FixDataProvider {
 		String s2= star+"+"+star;
 		String s3= ""+star+star+star;*/
 		List<String> list = new ArrayList<String>();
-		list.add("");
-		list.add("*");
-		list.add("**");
-		list.add("***");
+		list.add("★");
+		list.add("★★");
+		list.add("★★★");
 		return list;
 	}
 	public static List<String> GetRingList() {
 		
 		List<String> list = new ArrayList<String>();
-		list.add("");
 		list.add("Ring1");
 		list.add("Ring2");
 		list.add("Ring3");
+		list.add("other");
 		return list;
 	}
 

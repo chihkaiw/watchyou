@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0e68c"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -14,15 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="BACK" />
-
-    <Button
-        android:id="@+id/photo_page_addnew"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="ADD" />
+        android:background="#6495ed"
+        android:text="BACK"
+        android:textColor="#ffffff" />
 
     <Button
         android:id="@+id/photo_page_submit"
@@ -30,23 +25,40 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="SUBMIT" />
+        android:background="#800000"
+        android:text="SUBMIT"
+        android:textColor="#ffffff" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/photo_page_submit"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/photo_page_addnew"
-        android:layout_marginTop="24dp" >
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="70dp" >
 
         <ImageView
             android:id="@+id/photo_page_imageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
             android:background="@android:color/black" />
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/photo_page_addnew"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/photo_page_back"
+        android:layout_alignRight="@+id/relativeLayout1"
+        android:layout_alignTop="@+id/photo_page_back"
+        android:background="#000000"
+        android:text="+"
+        android:textSize="40dp"
+        android:textColor="#fffaf0" />
 
 </RelativeLayout>

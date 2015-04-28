@@ -34,7 +34,7 @@ import android.widget.Toast;
 
 public class Me extends Activity implements OnClickListener{
 	
-	private ImageButton me_photo;
+	private ImageView me_photo;
 	private TextView date_view, rank, howmanystar, complete;
 	private Button schedule_button, supervise_button, record_button, me_back;
 	private int pYear, pMonth, pDay;
@@ -53,7 +53,7 @@ public class Me extends Activity implements OnClickListener{
 		me_back = (Button)findViewById(R.id.me_back);
 		me_back.setOnClickListener(this);
 		
-		me_photo = (ImageButton)findViewById(R.id.me_imageButton);
+		me_photo = (ImageView)findViewById(R.id.me_imageButton);
 		me_photo.setImageResource(R.drawable.ad);
 		me_photo.setOnClickListener(this);
 		

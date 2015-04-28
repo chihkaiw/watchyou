@@ -9,7 +9,8 @@
     android:colorBackgroundCacheHint="@null"
     android:windowNoTitle="true"
     android:windowContentOverlay="@null"
-    tools:context="com.example.a55123.Rank">
+    tools:context="com.example.a55123.Rank"
+    android:background="#f0e68c">
 
     <Button
         android:id="@+id/addnew"
@@ -17,7 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="+" />
+        android:text="+" 
+        android:textSize="30dp"
+        android:background="#ffffff"
+        android:textColor="#000000" />
 
     <RelativeLayout
         android:id="@+id/calrelative"
@@ -27,14 +31,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/addnew"
         android:layout_below="@+id/addnew"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:background="@drawable/shape" >
 
         <CalendarView
             android:id="@+id/calendarView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true" 
+            android:background="#ffffff"/>
 
     </RelativeLayout>
 
@@ -45,7 +51,8 @@
         android:layout_alignLeft="@+id/launch_codes"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/Doneforschedule"
-        android:layout_below="@+id/Doneforschedule"/>
+        android:layout_below="@+id/Doneforschedule"
+        android:background="@drawable/shape"/>
 
     <Button
         android:id="@+id/Doneforschedule"
@@ -55,7 +62,9 @@
         android:layout_alignBottom="@+id/launch_codes"
         android:layout_alignTop="@+id/launch_codes"
         android:layout_toRightOf="@+id/launch_codes"
-        android:text="Done" />
+        android:text="Search"
+        android:background="#a9a9a9"
+        android:textColor="#000000"  />
 
     <EditText
         android:id="@+id/launch_codes"
@@ -66,7 +75,6 @@
         android:layout_marginBottom="300dp"
         android:layout_marginRight="30dp"
         android:ems="10"
-        android:hint="@string/enter_launch_codes"
         android:inputType="text" >
 
         <requestFocus />
@@ -78,6 +86,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/calrelative"
         android:layout_alignTop="@+id/addnew"
-        android:text="BACK" />
+        android:text="BACK"
+        android:background="#6495ed"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

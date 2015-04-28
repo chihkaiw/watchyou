@@ -1,13 +1,27 @@
 package com.example.a55123;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.example.a55123.support.FixDataProvider;
 import com.example.a55123.support.NewListDataSQL;
+import com.example.a55123.support.NewPersonalDataSQL;
 import com.example.a55123.*;
 
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -17,6 +31,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,11 +64,17 @@ public class ScheduleContent extends Activity implements OnClickListener{
     private Spinner mSpinnerA, mSpinnerB, mSpinnerC;
     private int stype, sstar, sring;
     private String _ID;
+    private String[] data_in_base;
     
     SQLiteDatabase db;
     public String db_name = "MainPageSQL";
 	public String table_name = "newtable";
 	NewListDataSQL helper = new NewListDataSQL(ScheduleContent.this, db_name);
+	
+	SQLiteDatabase db_personal;
+	public String db_name_personal = "PersonalSQL";
+	public String table_name_personal = "personaldata";
+	NewPersonalDataSQL personaldata_helper = new NewPersonalDataSQL(ScheduleContent.this, db_name_personal);
 	
     private FixDataProvider FDP = new FixDataProvider();
     
@@ -62,7 +83,12 @@ public class ScheduleContent extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_schedule_content);
 		
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+		
 		db = helper.getWritableDatabase();
+		db_personal = personaldata_helper.getReadableDatabase();
+		data_in_base = myData();
 		
 		 bundle = getIntent().getExtras();
 		 ArrayList<Integer> box;
@@ -186,60 +212,64 @@ public class ScheduleContent extends Activity implements OnClickListener{
 				break;
 				
 			case R.id.scbutton:
-			 	String stitle = edittitle.getText().toString();
-            	String sreminddate = datetext2.getText().toString();
-            	String sremindtime = edittime.getText().toString();
-            	String snote = editnote.getText().toString();
-            	/*int stype = (int) mSpinnerA.getSelectedItemPosition();
-            	int sstar = (int) mSpinnerB.getSelectedItemPosition();
-            	int sring = (int) mSpinnerC.getSelectedItemPosition();*/
-            	
-            	//寫進SQLite
-        	   ContentValues cv = new ContentValues();
-        	   cv.put("title", stitle);
-        	   cv.put("year", pYear);
-        	   cv.put("month", pMonth);
-        	   cv.put("day", pDay);
-        	   cv.put("reminddate", sreminddate);
-        	   cv.put("remindtime", sremindtime);
-        	   cv.put("note",snote);
-        	   cv.put("type",stype);
-        	   cv.put("star",sstar);
-        	   cv.put("ring",sring);
-        	  
-        	   
-        	   
-	    	   if(checksum == 0){
-	    		   cv.put("submit", false);
-	        	   long long1 = db.insert(table_name, "", cv);
+				if(!TextUtils.isEmpty(edittitle.getText().toString())){
+				 	String stitle = edittitle.getText().toString();
+	            	String sreminddate = datetext2.getText().toString();
+	            	String sremindtime = edittime.getText().toString();
+	            	String snote = editnote.getText().toString();
+	            	/*int stype = (int) mSpinnerA.getSelectedItemPosition();
+	            	int sstar = (int) mSpinnerB.getSelectedItemPosition();
+	            	int sring = (int) mSpinnerC.getSelectedItemPosition();*/
+	            	
+	            	//寫進SQLite
+	        	   ContentValues cv = new ContentValues();
+	        	   cv.put("title", stitle);
+	        	   cv.put("year", pYear);
+	        	   cv.put("month", pMonth);
+	        	   cv.put("day", pDay);
+	        	   cv.put("reminddate", sreminddate);
+	        	   cv.put("remindtime", sremindtime);
+	        	   cv.put("note",snote);
+	        	   cv.put("type",stype);
+	        	   cv.put("star",sstar);
+	        	   cv.put("ring",sring);
 	        	   
-	        	   if (long1 == -1) {
-	        		   Toast.makeText(ScheduleContent.this,"fail！", Toast.LENGTH_SHORT).show();
-	        		   //ScheduleContent.this.finish(); 
-	        	   }
-	        	   else{    
-	        		   Toast.makeText(ScheduleContent.this,"Success!", Toast.LENGTH_SHORT).show();
-	        		   //ScheduleContent.this.finish(); 
-	        	   }
-	        	   
-	        	   
-	        	}
-	        	else{
-	        		
-	        		long long1 = db.update(table_name, cv, "_ID=" + _ID, null);
-	        		
-	    		   if (long1 == -1) {
-	        		   Toast.makeText(ScheduleContent.this,"Change Fail！", Toast.LENGTH_SHORT).show();
-	        		   //ScheduleContent.this.finish(); 
-	        	   }
-	        	   else{    
-	        		   Toast.makeText(ScheduleContent.this,"Change Success!", Toast.LENGTH_SHORT).show();
-	        		   //ScheduleContent.this.finish(); 
-	        	   }
-	        	}
-	    	    
-        	    setResult(Activity.RESULT_OK,intent);
-        	    finish();
+		    	   if(checksum == 0){
+		    		   cv.put("submit", "false");
+		    		   cv.put("accept", "false");
+		    		   cv.put("schedule_ID_web", "null");
+		        	   long long1 = db.insert(table_name, "", cv);
+		        	   
+		        	   if (long1 == -1) {
+		        		   Toast.makeText(ScheduleContent.this,"fail！", Toast.LENGTH_SHORT).show();
+		        	   }
+		        	   else{    
+		        		   Toast.makeText(ScheduleContent.this,"Success!", Toast.LENGTH_SHORT).show();
+		        		   post(); //post to Webserver
+		        	   }
+		        	   
+		        	   
+		        	}
+		        	else{
+		        		
+		        		long long1 = db.update(table_name, cv, "_ID=" + _ID, null);
+		        		
+		    		   if (long1 == -1) {
+		        		   Toast.makeText(ScheduleContent.this,"Change Fail！", Toast.LENGTH_SHORT).show();
+		        		   //ScheduleContent.this.finish(); 
+		        	   }
+		        	   else{    
+		        		   Toast.makeText(ScheduleContent.this,"Change Success!", Toast.LENGTH_SHORT).show();
+		        		   //ScheduleContent.this.finish(); 
+		        	   }
+		        	}
+		    	    
+	        	    setResult(Activity.RESULT_OK,intent);
+	        	    finish();
+				}
+				else{
+					Toast.makeText(ScheduleContent.this,"Title is empty", Toast.LENGTH_SHORT).show();
+				}
 	    	   	break;
     	   
 			case R.id.delete_button:
@@ -297,31 +327,29 @@ public class ScheduleContent extends Activity implements OnClickListener{
 	
 	public String[] myTitle(String s){
 		Cursor cursor = db.rawQuery(s, null);
-		 //用陣列存資料
 		String[] sNote = new String[cursor.getCount()];
 		  
-		int rows_num = cursor.getCount();//取得資料表列數
+		int rows_num = cursor.getCount();
 		if(rows_num != 0) {
-			  cursor.moveToFirst();   //將指標移至第一筆資料
+			  cursor.moveToFirst();   
 			  for(int i=0; i<rows_num; i++){
 				  String strCr = cursor.getString(0);
 				  sNote[i]=strCr;
-				  cursor.moveToNext();//將指標移至下一筆資料
+				  cursor.moveToNext();
 			  }
 		 }
-		 cursor.close(); //關閉Cursor
-		 //dbHelper.close();//關閉資料庫，釋放記憶體，還需使用時不要關閉
+		 cursor.close(); 
+		 //dbHelper.close();
 		 return sNote;
 	}
     
     public String[] myTime(String s){
 		Cursor cursor = db.rawQuery(s, null);
-		 //用陣列存資料
 		String[] sNote = new String[cursor.getCount()];
 		  
-		int rows_num = cursor.getCount();//取得資料表列數
+		int rows_num = cursor.getCount();
 		if(rows_num != 0) {
-			  cursor.moveToFirst();   //將指標移至第一筆資料
+			  cursor.moveToFirst(); 
 			  for(int i=0; i<rows_num; i++){
 				  String strCr = cursor.getString(0);
 				  if(strCr != null){
@@ -330,11 +358,10 @@ public class ScheduleContent extends Activity implements OnClickListener{
 				  else{
 					  sNote[i]="nnn";
 				  }
-				  cursor.moveToNext();//將指標移至下一筆資料
+				  cursor.moveToNext();
 			  }
 		 }
-		 cursor.close(); //關閉Cursor
-		 //dbHelper.close();//關閉資料庫，釋放記憶體，還需使用時不要關閉
+		 cursor.close();
 		 return sNote;
 	}
     public void setlistview(String title, String time){
@@ -415,6 +442,141 @@ public class ScheduleContent extends Activity implements OnClickListener{
 	    }, pHour, pMinute, false);  
 	  tpd.show();  
 	 }
+	//------------------------post new schedule to WebServer --------------------------------------------------------------
+	 private void post() {  /// post to webserver
+	    	
+	    	StringBuilder sb = new StringBuilder();
+
+			String http = "http://watchyou.herokuapp.com/schedules";
+			HttpURLConnection urlConnection = null;
+			try {
+				URL url = new URL(http);
+				urlConnection = (HttpURLConnection) url.openConnection();
+				urlConnection.setDoOutput(true);
+				urlConnection.setRequestMethod("POST");
+				urlConnection.setUseCaches(false);
+				urlConnection.setConnectTimeout(10000);
+				urlConnection.setReadTimeout(10000);
+				urlConnection.setRequestProperty("Content-Type", "application/json");
+
+				urlConnection.connect();
+
+				// Create JSONObject here
+				OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+				JSONObject jsonParam = formJSON();
+				out.write(jsonParam.toString());
+				out.close();
+
+				int HttpResult = urlConnection.getResponseCode();
+				if (HttpResult == HttpURLConnection.HTTP_OK) {
+					BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
+					String line = null;
+					while ((line = br.readLine()) != null) {
+						sb.append(line + "\n");
+					}
+					br.close();
+				} 
+				else {
+					System.out.println(urlConnection.getResponseMessage());
+				}
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (urlConnection != null)
+					urlConnection.disconnect();
+			}
+	    }
+	    
+	    public JSONObject formJSON(){
+	    	Map<String, JSONObject> params = new HashMap<String, JSONObject>();
+			Map<String, String> params_nested = new HashMap<String, String>();
+			params_nested.put("userID", data_in_base[4]);
+			params_nested.put("title", edittitle.getText().toString());
+			params_nested.put("year", Integer.toString(pYear));
+			params_nested.put("month", Integer.toString(pMonth));
+			params_nested.put("day", Integer.toString(pDay));
+			params_nested.put("remind_date", datetext2.getText().toString());
+			params_nested.put("remind_time", edittime.getText().toString());
+			params_nested.put("note", editnote.getText().toString());
+			params_nested.put("category", Integer.toString(stype));// this one is type
+			params_nested.put("star", Integer.toString(sstar));
+			params_nested.put("ring", Integer.toString(sring));
+			 // 1 = true (submit already), 0 = false (haven't submit)
+			params_nested.put("submit", "false");
+			params_nested.put("accept", "false");
+			params_nested.put("image", null);
+			JSONObject json_nested = new JSONObject(params_nested);
+			params.put("schedule", json_nested);
+			JSONObject json_f = new JSONObject(params);
+			
+			return json_f;
+	    }
+	    //--------------------------------------------------------------------------------------
+	    //------------------Delete Schedule at Webserver------------------------------------------------------------------
+	    public void delete_schedule(String UserID, String id) throws JSONException{
+			StringBuilder sb = new StringBuilder();
+			String http = "http://localhost:3000/schedules/delete"+ "/"+ UserID+ "/"+ id;
+			HttpURLConnection urlConnection = null;
+			try {
+				URL url = new URL(http);
+				urlConnection = (HttpURLConnection) url.openConnection();
+				urlConnection.setDoOutput(true);
+				urlConnection.setRequestMethod("DELETE");
+				urlConnection.setUseCaches(false);
+				urlConnection.setConnectTimeout(10000);
+				urlConnection.setReadTimeout(10000);
+				urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				urlConnection.connect();
+				// Create JSONObject here
+				int HttpResult = urlConnection.getResponseCode();
+				if (HttpResult == HttpURLConnection.HTTP_OK) {
+					BufferedReader br = new BufferedReader(new InputStreamReader(
+							urlConnection.getInputStream(), "utf-8"));
+					String line = null;
+					while ((line = br.readLine()) != null) {
+						sb.append(line + "\n");
+					}
+					br.close();
+					System.out.println("" + sb.toString());
+				} else {
+					System.out.println(urlConnection.getResponseMessage());
+				}
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (urlConnection != null)
+					urlConnection.disconnect();
+			}
+		}
+	    //------------------------------------------------------------------------------------------------------
+	    //------------------------------------------get personal data from database -------------------------------
+		public String[] myData(){
+	    	String keeplogin = "select _ID, name, email, password, webserverID from personaldata ";
+			Cursor cursor = db_personal.rawQuery(keeplogin, null);
+			String[] sNote = new String[5];
+			  
+			int rows_num = cursor.getCount();
+			if(rows_num != 0) {
+				  cursor.moveToFirst();   
+				  for(int i=0; i<5; i++){
+					  String strCr = cursor.getString(i);
+					  sNote[i]=strCr;  
+				  }
+				  cursor.moveToNext();
+			 }
+			 cursor.close();
+			 Log.e("str0",sNote[0]);
+			 Log.e("str1",sNote[1]);
+			 Log.e("str2",sNote[2]);
+			 Log.e("str3",sNote[3]);
+			 Log.e("str4",sNote[4]);
+			 return sNote;
+		}
+		 //------------------------------------------------------------------------------------------------------
 
 	
 }

@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.a55123.Me_supervise_personal" >
+    tools:context="com.example.a55123.Me_supervise_personal" 
+    android:background="#f0e68c" >
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
@@ -20,7 +21,9 @@
             android:id="@+id/me_back_supervise_personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BACK" />
+            android:text="BACK" 
+            android:background="#6495ed"
+        	android:textColor="#ffffff" />
 
         <TextView
             android:id="@+id/me_supervise_personal_schedule_title"
@@ -38,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout1"
-        android:layout_marginBottom="150dp">
+        android:layout_marginBottom="170dp">
 
         <ImageView
             android:id="@+id/me_back_supervise_personal_Big_image"
@@ -52,7 +55,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/LinearLayout1"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="29dp" >
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shape" >
 
         <LinearLayout
             android:id="@+id/me_supervise_personal_gallery"
@@ -69,14 +73,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/HorizontalScrollView2"
-        android:layout_alignLeft="@+id/relativeLayout2" >
+        android:layout_alignLeft="@+id/relativeLayout2" 
+        android:layout_marginBottom="18dp">
 
         <Button
             android:id="@+id/me_supervise_personal_Good"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="80dp"
+            android:background="#d3d3d3"
             android:minHeight="80dip"
-            android:text="Good" />
+            android:text="Good"
+            android:textColor="#008000" />
 
         <Button
             android:id="@+id/me_supervise_personal_Failed"
@@ -84,8 +94,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginRight="80dp"
+            android:background="#d3d3d3"
             android:minHeight="80dp"
-            android:text="Failed" />
+            android:text="Failed"
+            android:textColor="#b22222" />
 
     </RelativeLayout>
 

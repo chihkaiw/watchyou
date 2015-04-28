@@ -35,11 +35,12 @@ public class Submit_task extends Activity implements OnClickListener{
 	private int Year, Month, Day;
 	private String[] title;
 	private String[] ID;
+	private String[] webID;
 	private SQLiteDatabase db;
 	public String db_name = "MainPageSQL";
 	public String table_name = "newtable";
 	private Bundle bundle = new Bundle();
-	private List<String> final_string, final_ID;
+	private List<String> final_string, final_ID, final_webID;
 	private static final int submittask = 012345;
 	
 	private NewListDataSQL helper = new NewListDataSQL(Submit_task.this, db_name);
@@ -84,9 +85,10 @@ public class Submit_task extends Activity implements OnClickListener{
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-				String[] titleandid = new String[2];
+				String[] titleandid = new String[3];
 				titleandid[0]=final_string.get(arg2);
 				titleandid[1]=final_ID.get(arg2); 
+				titleandid[2]=final_webID.get(arg2);
 				bundle.putStringArray("Title and ID", titleandid);
 				
 				ArrayList<Integer> box = new ArrayList<Integer>();
@@ -136,14 +138,17 @@ public class Submit_task extends Activity implements OnClickListener{
     	
     	title = myTitle("title");
     	ID = myTitle("_ID");
+    	webID = myTitle("schedule_ID_web");
     	String[] checkcheck = myTitle("submit");
     	final_string = new ArrayList<String>();
     	final_ID = new ArrayList<String>();
+    	final_webID = new ArrayList<String>();
     	for(int i=0 ; i<title.length ; i++){
     	
-    		if(checkcheck[i].equals("0")){ // 1 = true (submit already), 0 = false (haven't submit)
+    		if(checkcheck[i].equals("false")){ // 1 = true (submit already), 0 = false (haven't submit)
     			final_string.add(title[i]);
     			final_ID.add(ID[i]);
+    			final_webID.add(webID[i]);
     		}
 
     	}

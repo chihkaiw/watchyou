@@ -41,8 +41,9 @@ public class NewListDataSQL extends SQLiteOpenHelper {
              + "type INT,"
              + "star INT,"
              + "ring INT,"
-             + "submit BOOLEAN,"
-             + "accept BOOLEAN"
+             + "submit VARCHAR,"
+             + "accept VARCHAR,"
+             + "schedule_ID_web VARCHAR"
          + ")";
             db.execSQL(DATABASE_CREATE_TABLE);
   }

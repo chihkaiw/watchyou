@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.a55123.Create_Account" >
+    tools:context="com.example.a55123.Create_Account"
+    android:background="#f0e68c" >
 
     <TextView
         android:id="@+id/create_account_title"
@@ -23,7 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="BACK" />
+        android:text="BACK"
+        android:background="#6495ed"
+        android:textColor="#ffffff"  />
 
     <Button
         android:id="@+id/create_account_confirm"
@@ -31,125 +34,101 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="CREATE" />
+        android:text="CREATE"
+        android:background="#ff0000"
+        android:textColor="#ffffff" />
 
-    <RelativeLayout
-        android:id="@+id/create_account_relativelayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/create_account_confirm"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/create_account_back" >
+   <RelativeLayout
+       android:id="@+id/create_account_relativelayout"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_above="@+id/create_account_confirm"
+       android:layout_centerHorizontal="true"
+       android:layout_centerVertical="true"
+       android:layout_below="@+id/create_account_back" >
 
-        <TextView
-            android:id="@+id/create_account_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/create_account_email"
-            android:text="Phone (optional): "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+       <TextView
+           android:id="@+id/create_account_repassword"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentLeft="true"
+           android:layout_below="@+id/create_account_password"
+           android:layout_marginTop="30dp"
+           android:text="Re-Password: "
+           android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/create_account_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/create_account_phone"
-            android:text="Account: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+       <EditText
+           android:id="@+id/create_account_name_type"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_above="@+id/create_account_email"
+           android:layout_alignBottom="@+id/create_account_name"
+           android:layout_alignParentRight="true"
+           android:ems="10"
+           android:inputType="textPersonName"
+           android:background="@drawable/shape" >
 
-        <TextView
-            android:id="@+id/create_account_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/create_account_account"
-            android:text="Password: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+           <requestFocus />
+       </EditText>
 
-        <TextView
-            android:id="@+id/create_account_repassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/create_account_password"
-            android:text="Re-Password: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+       <EditText
+           android:id="@+id/create_account_email_type"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignBottom="@+id/create_account_email"
+           android:layout_alignParentRight="true"
+           android:ems="10"
+           android:inputType="textEmailAddress"
+           android:background="@drawable/shape" />
 
-        <TextView
-            android:id="@+id/create_account_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="Name: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+       <EditText
+           android:id="@+id/create_account_password_type"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignBottom="@+id/create_account_password"
+           android:layout_alignParentRight="true"
+           android:ems="10"
+           android:background="@drawable/shape" />
 
-        <TextView
-            android:id="@+id/create_account_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/create_account_name"
-            android:text="E-Mail: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+       <EditText
+           android:id="@+id/create_account_repassword_type"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignBottom="@+id/create_account_repassword"
+           android:layout_alignParentRight="true"
+           android:ems="10"
+           android:background="@drawable/shape" />
 
-        <EditText
-            android:id="@+id/create_account_name_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:inputType="textPersonName" >
+       <TextView
+           android:id="@+id/create_account_name"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentLeft="true"
+           android:layout_alignParentTop="true"
+           android:layout_marginTop="49dp"
+           android:text="Name: "
+           android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <requestFocus />
-        </EditText>
+       <TextView
+           android:id="@+id/create_account_password"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentLeft="true"
+           android:layout_below="@+id/create_account_email"
+           android:layout_marginTop="30dp"
+           android:text="Password: "
+           android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <EditText
-            android:id="@+id/create_account_phone_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/create_account_phone"
-            android:layout_alignParentRight="true"
-            android:ems="10"
-            android:inputType="phone" />
+       <TextView
+           android:id="@+id/create_account_email"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentLeft="true"
+           android:layout_below="@+id/create_account_name"
+           android:layout_marginTop="30dp"
+           android:text="E-Mail: "
+           android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <EditText
-            android:id="@+id/create_account_email_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/create_account_email"
-            android:layout_alignParentRight="true"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/create_account_account_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/create_account_account"
-            android:layout_alignParentRight="true"
-            android:ems="10" />
-
-        <EditText
-            android:id="@+id/create_account_password_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/create_account_password"
-            android:layout_alignParentRight="true"
-            android:ems="10" />
-
-        <EditText
-            android:id="@+id/create_account_repassword_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/create_account_repassword"
-            android:layout_alignParentRight="true"
-            android:ems="10" />
-
-    </RelativeLayout>
+   </RelativeLayout>
 
 </RelativeLayout>

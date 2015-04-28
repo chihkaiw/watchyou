@@ -7,13 +7,18 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.a55123.support.NewPersonalDataSQL;
+
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -32,6 +37,11 @@ public class Rank extends Activity implements OnClickListener{
 	
 	private Button rank_back_button;
 	private ListView rank_listivew;
+	
+	SQLiteDatabase db_personal;
+	public String db_name_personal = "PersonalSQL";
+	public String table_name_personal = "personaldata";
+	NewPersonalDataSQL personaldata_helper = new NewPersonalDataSQL(Rank.this, db_name_personal);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +51,32 @@ public class Rank extends Activity implements OnClickListener{
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		
+		db_personal = personaldata_helper.getReadableDatabase();
+		
 		rank_back_button = (Button)findViewById(R.id.rank_back_button);
 		rank_back_button.setOnClickListener(this);
 		
 		rank_listivew = (ListView)findViewById(R.id.ranklistview);
+		rank_listivew.setBackgroundResource(R.drawable.shape);
 		chkNetwork();
-		String[] str=null;
+		String[][] str=null;
+		ArrayList<String> str_show = new ArrayList<String>();
+		ArrayList<String> str_show_id = new ArrayList<String>();
 		try {
 			str = getJSONData();
+			String[] data_in_base = myData();
+			for(int i=0 ; i<str[0].length ; i++){
+				if(!str[0][i].equals(data_in_base[4]) || !str[2][i].equals(data_in_base[2])){
+					str_show.add(str[1][i]);
+					str_show_id.add(str[0][i]);
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(Rank.this,
 				android.R.layout.simple_expandable_list_item_1,
-				str);
+				str_show);
 		rank_listivew.setAdapter(listAdapter);
 	}
 	
@@ -88,9 +110,9 @@ public class Rank extends Activity implements OnClickListener{
 	}
 	
 	// Get JSON Raw data
-	private String[] getJSONData() throws IOException{
+	private String[][] getJSONData() throws IOException{
 		try{
-		String szUrl = "http://watchyou.herokuapp.com/users/json";
+		String szUrl = "http://watchyou.herokuapp.com/users/index.json";
 		URL url = new URL(szUrl);
 		URLConnection rulConnection = url.openConnection(); 
 		HttpURLConnection httpcon = (HttpURLConnection) rulConnection;
@@ -122,26 +144,19 @@ public class Rank extends Activity implements OnClickListener{
 	}
 	
 	// Transfer Raw JSON data to  readable data
-	public String[]  getJson(String jsonString) throws JSONException {
- 		JSONArray jsonObject = new JSONArray(jsonString);
- 		  
-        String[] name = new String[jsonObject.length()];
- 		String[] email = new String[jsonObject.length()];
- 		String[] password = new String[jsonObject.length()];
- 		int[] ID = new int[jsonObject.length()];
- 		
- 		for(int i = 0 ; i<jsonObject.length(); i++){
- 			JSONObject lib = jsonObject.getJSONObject(i);
- 			name[i] = lib.getString("name");
- 			email[i] = lib.getString("email");
- 			password[i] = lib.getString("password");
- 			ID[i] = lib.getInt("id");
- 			Log.e("name", lib.getString("name"));
- 			Log.e("email", lib.getString("email"));
- 			Log.e("password", lib.getString("password"));
- 			Log.e("ID", ""+lib.getInt("id"));
- 		}
- 		return name; 
+	public String[][]  getJson(String jsonString) throws JSONException {
+JSONArray jsonArray = new JSONArray(jsonString);		
+  		String[][] final_ans = new String[4][jsonArray.length()];
+  		
+  		for(int i = 0 ; i<jsonArray.length(); i++){
+  			JSONObject lib = jsonArray.getJSONObject(i);
+
+  			final_ans[0][i] = Integer.toString(lib.getInt("id"));
+			final_ans[1][i] = lib.getString("name");
+			final_ans[2][i] = lib.getString("email");
+			final_ans[3][i] = lib.getString("password");
+  		}
+  		return final_ans; 
      }
 	
 	public void chkNetwork(){
@@ -153,79 +168,23 @@ public class Rank extends Activity implements OnClickListener{
             Toast.makeText(Rank.this, "DataBase Connected Failed ", Toast.LENGTH_SHORT).show();
         }
     }
-
 	
-	
-	//呼叫AsyncTask
-	/*private class DownloadWebpageTask extends AsyncTask<Void,Integer,String[]>
-    {
-     
-        @Override
-        //要在背景中做的事
-        protected String[]  doInBackground(Void... params) {
-            try {
-                return getWebData();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }        
-        }
-        //@Override
-        //背景工作處理完"後"需作的事
-       protected void onPostExecute(String[] result) {
-            super.onPostExecute(result);
-            rank_back_button.setText(result[1]);
-        
-           //進度BAR消失
-           //ProgressBar pb=(ProgressBar)findViewById(R.id.progressBar);
-           //pb.setVisibility(-1);       
-        }
+	public String[] myData(){
+    	String keeplogin = "select _ID, name, email, password, webserverID from personaldata ";
+		Cursor cursor = db_personal.rawQuery(keeplogin, null);
+		String[] sNote = new String[5];
+		  
+		int rows_num = cursor.getCount();//取得資料表列數
+		if(rows_num != 0) {
+			  cursor.moveToFirst();   //將指標移至第一筆資料
+			  for(int i=0; i<5; i++){
+				  String strCr = cursor.getString(i);
+				  sNote[i]=strCr;  
+			  }
+			  cursor.moveToNext();//將指標移至下一筆資料
+		 }
+		 cursor.close();
+		 return sNote;
+	}
 
-        //取得網路資料
-        public String[] getWebData() throws IOException{
-            URL url=new URL("http://watchyou.herokuapp.com/users/json");
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            conn.setReadTimeout(10000 );// milliseconds 
-            conn.setConnectTimeout(15000 );// milliseconds 
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);        
-            conn.connect();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            String jsonString= reader.readLine();
-            reader.close();
-      
-            try {
-                return (getJson(jsonString));
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        
-        }
-        public String[]  getJson(String jsonString) throws JSONException {
-            //如果是巢狀JSON字串,須分兩次來取資料
-    		JSONArray jsonObject = new JSONArray(jsonString);
-    		
-            
-            String[] name = new String[jsonObject.length()];
-    		String[] email = new String[jsonObject.length()];
-    		String[] password = new String[jsonObject.length()];
-    		String[] schedule = new String[jsonObject.length()];
-    		
-    		for(int i = 0 ; i<jsonObject.length(); i++){
-    			JSONObject lib = jsonObject.getJSONObject(i);
-    			name[i] = lib.getString("name");
-    			email[i] = lib.getString("email");
-    			password[i] = lib.getString("password");
-    			schedule[i] = lib.getString("scheduleID");
-    			Log.e("name", lib.getString("name"));
-    			Log.e("name", lib.getString("email"));
-    			Log.e("name", lib.getString("password"));
-    			Log.e("name", lib.getString("scheduleID"));
-    		}
-    		
-    		return name;
-            
-        }
-    }*/
 }

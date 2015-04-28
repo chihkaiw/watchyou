@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0e68c"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -9,6 +10,7 @@
     tools:context="com.example.a55123.SignUp" >
 
     <RelativeLayout
+        android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -16,36 +18,33 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/signup_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SIGN IN"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
             android:id="@+id/signup_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/signup_title"
             android:text="Account: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/signup_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_marginTop="40dp"
             android:layout_below="@+id/signup_account"
             android:text="Password: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000"/>
 
         <EditText
             android:id="@+id/signup_account_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/signup_account"
+            android:layout_alignTop="@+id/signup_account"
             android:layout_alignParentRight="true"
+            android:background="@drawable/shape"
             android:ems="10" >
 
             <requestFocus />
@@ -56,25 +55,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/signup_password"
+            android:layout_alignTop="@+id/signup_password"
+            android:layout_alignLeft="@+id/signup_account_type"
             android:layout_alignParentRight="true"
+            android:background="@drawable/shape"
             android:ems="10"
             android:inputType="textPassword" />
-
-        <Button
-            android:id="@+id/signup_signin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/signup_password"
-            android:text="sign in" />
-
-        <CheckBox
-            android:id="@+id/signup_checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/signup_signin"
-            android:layout_alignParentRight="true"
-            android:text="Save" />
 
     </RelativeLayout>
 
@@ -84,7 +70,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Sign Up" />
+        android:background="#8b4513"
+        android:text="Sign Up"
+        android:textColor="#ffffff" />
 
     <Button
         android:id="@+id/signup_back"
@@ -92,6 +80,39 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="BACK" />
+        android:background="#6495ed"
+        android:text="BACK"
+        android:textColor="#ffffff"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/signup_signin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:background="#a9a9a9"
+        android:text="sign in"
+        android:textColor="#000000" />
+
+    <CheckBox
+        android:id="@+id/signup_checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/signup_signin"
+        android:layout_alignParentRight="true"
+        android:text="Save" />
+
+    <TextView
+        android:id="@+id/signup_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="42dp"
+        android:text="SIGN IN"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000" />
 
 </RelativeLayout>

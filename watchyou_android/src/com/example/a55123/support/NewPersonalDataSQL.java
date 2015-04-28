@@ -29,13 +29,12 @@ public class NewPersonalDataSQL extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
    String DATABASE_CREATE_TABLE =
-     "create table newtable("
+     "create table personaldata("
        + "_ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,"
     		 + "name VARCHAR,"
-             + "account VARCHAR,"
              + "email VARCHAR,"
              + "password VARCHAR,"
-             + "phononumber VARCHAR,"
+             + "webserverID VARCHAR,"
              + "keeplogin BOOLEAN"
          + ")";
             db.execSQL(DATABASE_CREATE_TABLE);
@@ -44,7 +43,7 @@ public class NewPersonalDataSQL extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
    //oldVersion=舊的資料庫版本；newVersion=新的資料庫版本
-   db.execSQL("DROP TABLE IF EXISTS newtable"); //刪除舊有的資料表
+   db.execSQL("DROP TABLE IF EXISTS personaldata"); //刪除舊有的資料表
    onCreate(db);
   }
    

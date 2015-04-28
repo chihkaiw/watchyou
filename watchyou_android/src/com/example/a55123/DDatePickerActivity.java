@@ -92,9 +92,8 @@ public class DDatePickerActivity extends Activity implements OnClickListener{
                 pMonth = month+1;
                 pDay = dayOfMonth;
 
-                text.setText(new StringBuilder().append(pYear).append(" / ").
-                	      append(pMonth).append(" / ").append(pDay));
-                s1=text.getText().toString();
+
+                s1="" + pYear + " / " + pMonth + " / " + pDay;
                 
                 setlistview();
                 Toast.makeText(DDatePickerActivity.this, s1, Toast.LENGTH_SHORT).show();
@@ -158,10 +157,6 @@ public class DDatePickerActivity extends Activity implements OnClickListener{
             	quary_string.add(buildSQLstring("remindtime", pYear, pMonth, pDay));
             	bundle.putStringArrayList("Quaryinfo", quary_string);
             	
-                /*Intent i = new Intent();
-                i.setClass(DDatePickerActivity.this, ScheduleContent.class);
-                i.putExtras(bundle); 
-                startActivity(i);*/
             	
             	Intent i = new Intent(DDatePickerActivity.this, ScheduleContent.class);
             	i.putExtras(bundle); 
@@ -191,18 +186,17 @@ public class DDatePickerActivity extends Activity implements OnClickListener{
     	String quary_title = buildSQLstring(target, pYear, pMonth, pDay);
     	// Sample "select title from newtable where (year = '2015' AND month = '4' AND day = '9')"
 		Cursor cursor = db.rawQuery(quary_title, null);
-		 //用陣列存資料
 		String[] sNote = new String[cursor.getCount()];
 		String ans = Integer.toString(cursor.getCount());
-		Log.e("str length", ans);
+		//Log.e("str length", ans);
 		  
-		int rows_num = cursor.getCount();//取得資料表列數
+		int rows_num = cursor.getCount();
 		if(rows_num != 0) {
-			  cursor.moveToFirst();   //將指標移至第一筆資料
+			  cursor.moveToFirst();   
 			  for(int i=0; i<rows_num; i++){
 				  String strCr = cursor.getString(0);
 				  sNote[i]=strCr;
-				  cursor.moveToNext();//將指標移至下一筆資料
+				  cursor.moveToNext();
 			  }
 		 }
 		 cursor.close(); //關閉Cursor
@@ -216,11 +210,10 @@ public class DDatePickerActivity extends Activity implements OnClickListener{
     	for(int i=0 ; i<8 ; i++){
     		String quary_time = reverseItemSQL(demo[i],title, pYear, pMonth, pDay);
     		Cursor cursor = db.rawQuery(quary_time, null);
-			 //用陣列存資料
 			  
-			int rows_num = cursor.getCount();//取得資料表列數
+			int rows_num = cursor.getCount();
 			if(rows_num != 0) {
-				  cursor.moveToFirst();   //將指標移至第一筆資料
+				  cursor.moveToFirst();   
 				  String strCr = cursor.getString(0);
 				  if(strCr != null){
 					  sNote[i]=strCr;
@@ -228,10 +221,10 @@ public class DDatePickerActivity extends Activity implements OnClickListener{
 				  else{
 					  sNote[i]="nnn";
 				  }
-				  cursor.moveToNext();//將指標移至下一筆資料
+				  cursor.moveToNext();
 			 }
-			 cursor.close(); //關閉Cursor
-			 //dbHelper.close();//關閉資料庫，釋放記憶體，還需使用時不要關閉
+			 cursor.close(); 
+			 //dbHelper.close();
     	}
 		 return sNote;
 	}
@@ -264,7 +257,7 @@ public class DDatePickerActivity extends Activity implements OnClickListener{
     		else{
     			final_string[i]=str_time[i]+" "+str_title[i];
     		}
-    		if(str_check[i].equals("1")){
+    		if(str_check[i].equals("true")){
     			final_string[i] = " √   " + final_string[i];
     		}
     	}

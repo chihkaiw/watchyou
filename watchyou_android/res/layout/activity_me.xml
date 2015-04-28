@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.a55123.Me" >
+    tools:context="com.example.a55123.Me" 
+    android:background="#f0e68c" >
 
     <RelativeLayout
         android:id="@+id/me_relative2"
@@ -15,7 +16,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="400dp" >
 
         <LinearLayout
             android:id="@+id/me_relative2lin1"
@@ -84,20 +86,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="BACK" />
+        android:text="BACK" 
+        android:background="#6495ed"
+        android:textColor="#ffffff"/>
 
     <RelativeLayout
         android:id="@+id/me_relative1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/me_back"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/me_back" >
+        android:layout_below="@+id/me_back"
+        android:layout_marginTop="21dp" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/me_imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_alignParentLeft="true"
             android:src="@android:drawable/btn_star" />
 
         <TextView
@@ -106,10 +111,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/me_imageButton"
             android:ems="10"
-            android:textSize="80sp" />
-
+            android:textSize="70sp" />
     </RelativeLayout>
 
 </RelativeLayout>
